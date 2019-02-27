@@ -18,7 +18,9 @@ class SingleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.single_activity)
 
-        navigator.openInitialScreen()
+        if (savedInstanceState == null) {
+            navigator.openInitialScreen()
+        }
     }
 }
 
