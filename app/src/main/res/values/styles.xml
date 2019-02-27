@@ -8,4 +8,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="RestaurantDetails" parent="TextAppearance.AppCompat" />
+    <style name="RestaurantDetails.Text">
+        <item name="android:textSize">@dimen/text_default</item>
+        <item name="android:padding">@dimen/padding_small</item>
+    </style>
+    <style name="RestaurantDetails.Title" parent="RestaurantDetails.Text">
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">end</item>
+    </style>
+
 </resources>

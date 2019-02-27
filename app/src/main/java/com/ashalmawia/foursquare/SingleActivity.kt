@@ -12,7 +12,7 @@ class SingleActivity : AppCompatActivity() {
      * as either we have a single activity,
      * or in case of multiple activities they are expected to have different Navigator interfaces.
      */
-    private val navigator: Navigator by lazy { NavigatorImpl(R.id.container, supportFragmentManager) }
+    val navigator: Navigator by lazy { NavigatorImpl(R.id.container, supportFragmentManager) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +21,14 @@ class SingleActivity : AppCompatActivity() {
         navigator.openRestaurantsMap()
     }
 }
+
+/**
+ * Doesn't make sense to expose this as a part of an interface,
+ * as either we have a single activity,
+ * or in case of multiple activities they are expected to have different Navigator interfaces.
+ */
+val Fragment.navigator: Navigator
+    get() = (activity as SingleActivity).navigator
 
 val Fragment.actionBar: ActionBar
     get() = (activity as AppCompatActivity).supportActionBar!!

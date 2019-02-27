@@ -2,6 +2,7 @@ package com.ashalmawia.foursquare.features.map
 
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
+import com.ashalmawia.foursquare.Navigator
 import com.ashalmawia.foursquare.R
 import com.ashalmawia.foursquare.model.Location
 import com.ashalmawia.foursquare.model.Restaurant
@@ -21,7 +22,11 @@ interface RestaurantsMapView {
     fun showError(message: Text)
 }
 
-class RestaurantsMapViewImpl(private val map: GoogleMap, private val actionBar: ActionBar) : RestaurantsMapView {
+class RestaurantsMapViewImpl(
+    private val map: GoogleMap,
+    private val actionBar: ActionBar,
+    private val navigator: Navigator
+) : RestaurantsMapView {
 
     private val context = actionBar.themedContext
 
@@ -41,12 +46,21 @@ class RestaurantsMapViewImpl(private val map: GoogleMap, private val actionBar: 
 
     private fun displayRestaurants(restaurants: List<Restaurant>) {
         restaurants.forEach {
-            map.addMarker(
+            val marker = map.addMarker(
                 MarkerOptions()
                     .position(it.location.toLanLng())
                     .title(it.name)
             )
+            marker.tag = it.id
         }
+        map.setOnMarkerClickListener {
+            onMarkerClicked(it.tag as String)
+            true
+        }
+    }
+
+    private fun onMarkerClicked(id: String) {
+        navigator.openRestaurantDetails(id)
     }
 
     override fun showError(message: Text) {

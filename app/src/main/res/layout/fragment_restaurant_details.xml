@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <ImageView android:id="@+id/photo"
+               android:layout_width="match_parent"
+               android:layout_height="@dimen/details__photo_expanded_height"
+               android:scaleType="centerCrop"
+               android:contentDescription="@string/details__restaurant_photo"/>
+
+    <TableLayout android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:padding="@dimen/margin_default">
+
+        <TableRow>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/RestaurantDetails.Title"
+                    android:text="@string/details__description"
+            />
+
+            <TextView
+                    android:id="@+id/labelDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/RestaurantDetails.Text"
+            />
+
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/RestaurantDetails.Title"
+                    android:text="@string/details__address"
+            />
+
+            <TextView
+                    android:id="@+id/labelAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/RestaurantDetails.Text"
+            />
+
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/RestaurantDetails.Title"
+                    android:text="@string/details__rating"
+            />
+
+            <TextView
+                    android:id="@+id/labelRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/RestaurantDetails.Text"
+            />
+
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/RestaurantDetails.Title"
+                    android:text="@string/details__hours"
+            />
+
+            <TextView
+                    android:id="@+id/labelHours"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/RestaurantDetails.Text"
+            />
+
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/RestaurantDetails.Title"
+                    android:text="@string/details__price_category"
+            />
+
+            <TextView
+                    android:id="@+id/labelPriceCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/RestaurantDetails.Text"
+            />
+
+        </TableRow>
+
+    </TableLayout>
+</LinearLayout>

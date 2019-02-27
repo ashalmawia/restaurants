@@ -8,4 +8,5 @@ interface Repository {
 
     fun getRestaurantsForLocation(location: Location): Observable<List<Restaurant>>
 
+    fun getRestaurantDetails(restaurantId: String): Observable<Restaurant>
 }

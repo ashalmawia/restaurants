@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_default">10dp</dimen>
+    <dimen name="padding_small">5dp</dimen>
+
+    <dimen name="text_default">14sp</dimen>
+
+    <dimen name="details__photo_expanded_height">200dp</dimen>
+</resources>
