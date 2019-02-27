@@ -6,6 +6,7 @@ import androidx.appcompat.app.ActionBar
 import com.ashalmawia.foursquare.R
 import com.ashalmawia.foursquare.image.ImageLoader
 import com.ashalmawia.foursquare.model.Restaurant
+import com.ashalmawia.foursquare.util.visible
 import kotlinx.android.synthetic.main.fragment_restaurant_details.view.*
 
 interface RestaurantDetailsView {
@@ -31,13 +32,33 @@ class RestaurantDetailsViewImpl(
         appBar.title = restaurant.name
 
         root.apply {
-            labelDescription.text = details.description
-            labelAddress.text = details.address
-            labelRating.text = context.getString(R.string.details__rating_placeholder, details.rating)
-            labelHours.text = details.hours
-            labelPriceCategory.text = details.priceCategory.asReadablePriceCategory()
+            labelDescription.apply {
+                visible = !details.description.isNullOrBlank()
+                text = details.description
+            }
 
-            imageLoader.load(photo, details.photo, R.drawable.placeholder)
+            labelAddress.text = details.address
+
+            labelRating.apply {
+                val hasRating = details.rating != null
+                if (hasRating) {
+                    text = context.getString(R.string.details__rating_placeholder, details.rating)
+                }
+                visible = hasRating
+            }
+
+            labelHours.apply {
+                visible = !details.hours.isNullOrBlank()
+                text = details.hours
+            }
+
+            labelPriceCategory.apply {
+                visible = details.priceCategory != null
+                text = details.priceCategory?.asReadablePriceCategory()
+            }
+
+            details.photo?.let { imageLoader.load(photo, details.photo, R.drawable.placeholder) }
+
         }
     }
 

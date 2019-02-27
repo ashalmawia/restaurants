@@ -1,5 +1,6 @@
 package com.ashalmawia.foursquare.features.details
 
+import android.util.Log
 import com.ashalmawia.foursquare.Navigator
 import com.ashalmawia.foursquare.data.Repository
 import com.ashalmawia.foursquare.model.Restaurant
@@ -32,7 +33,9 @@ class RestaurantDetailsPresenterImpl(
         val subscription = repository.getRestaurantDetails(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::onDetailsLoaded, { _ -> onError() })
+            .subscribe(this::onDetailsLoaded, { error ->
+                Log.e("FOURSQUARE", "error", error)
+                onError() })
         subscriptions.add(subscription)
     }
 

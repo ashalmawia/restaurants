@@ -35,6 +35,5 @@ private fun addAuthParams(chain: Interceptor.Chain): Response {
     val newRequest = request.newBuilder()
         .url(url)
         .build()
-    Log.d("asdf", url.toString())
     return chain.proceed(newRequest)
 }

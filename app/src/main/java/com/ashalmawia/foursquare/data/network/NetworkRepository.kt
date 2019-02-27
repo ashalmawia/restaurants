@@ -1,6 +1,7 @@
 package com.ashalmawia.foursquare.data.network
 
 import com.ashalmawia.foursquare.data.Repository
+import com.ashalmawia.foursquare.data.network.pojo.DetailsResponse
 import com.ashalmawia.foursquare.data.network.retrofit.FourSquareApi
 import com.ashalmawia.foursquare.data.network.retrofit.retrofit
 import com.ashalmawia.foursquare.model.Details
@@ -25,20 +26,24 @@ class NetworkRepository : Repository {
     }
 
     override fun getRestaurantDetails(restaurantId: String): Observable<Restaurant> {
-        val updated = Restaurant(restaurantId, "Mock Restaurant", Location(23.234343, 23.23434), mockDetails())
-        return Observable.just(updated)
+        return fourSquareApi.venueDetails(restaurantId)
+            .map(::detailsResponseToModel)
     }
-
-    private fun mockDetails() = Details(
-        "https://fastly.4sqi.net/img/general/200x200/6036_Xv3VOJm0A8HMF8EbQWdKPXIce7LxcvXOMt4_nW5gDhU.jpg",
-        "The best restaurant of European cuisine ever",
-        "Keizergracht 35A, Amsterdam",
-        8,
-        "9:00 - 18:00",
-        3
-    )
 }
 
 private fun Location.toLL() = "$latitude,$longitude"
 
 private fun toApiFormat(categories: List<VenueCategory>) = categories.joinToString { it.id }
+
+private fun detailsResponseToModel(response: DetailsResponse.Body) : Restaurant {
+    val venue = response.response.venue
+    val details = Details(
+        venue.bestPhoto?.toPhotoUrl(),
+        venue.description,
+        venue.location.formattedAddress(),
+        venue.rating,
+        venue.hours?.status,
+        venue.price?.tier
+    )
+    return Restaurant(venue.id, venue.name, venue.location.toLocationModel(), details)
+}
