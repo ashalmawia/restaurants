@@ -9,7 +9,7 @@ import com.google.android.gms.maps.SupportMapFragment
 
 class RestaurantsMapFragment : SupportMapFragment() {
 
-    private lateinit var presenter: RestaurantsMapPresenter
+    private var presenter: RestaurantsMapPresenter? = null
 
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
@@ -21,13 +21,15 @@ class RestaurantsMapFragment : SupportMapFragment() {
 
         val serviceLocator = activity!!.serviceLocator
 
-        presenter = RestaurantsMapPresenterImpl(view, serviceLocator.repository)
+        val presenter = RestaurantsMapPresenterImpl(view, serviceLocator.repository)
+        this.presenter = presenter
+
         presenter.start()
     }
 
     override fun onDestroy() {
         super.onDestroy()
 
-        presenter.stop()
+        presenter?.stop()
     }
 }

@@ -12,13 +12,13 @@ class SingleActivity : AppCompatActivity() {
      * as either we have a single activity,
      * or in case of multiple activities they are expected to have different Navigator interfaces.
      */
-    val navigator: Navigator by lazy { NavigatorImpl(R.id.container, supportFragmentManager) }
+    val navigator: Navigator by lazy { NavigatorImpl(R.id.container, this, supportFragmentManager) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.single_activity)
 
-        navigator.openRestaurantsMap()
+        navigator.openInitialScreen()
     }
 }
 
