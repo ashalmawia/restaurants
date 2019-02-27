@@ -6,6 +6,10 @@ class MockNavigator : Navigator {
         // ignore
     }
 
+    override fun openRestaurantDetails(restaurantId: String) {
+        // ignore
+    }
+
     override fun back() {
         // ignore
     }

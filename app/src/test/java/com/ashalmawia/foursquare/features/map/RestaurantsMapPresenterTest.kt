@@ -41,8 +41,8 @@ class RestaurantsMapPresenterTest {
         Thread.sleep(200)       // having to wait because operation is asynchronous
 
         // then
-        assertEquals(list, mockView._shownRestaurants)
-        assertFalse(mockView._showErrorCalled)
+        assertEquals(list, mockView.shownRestaurants)
+        assertFalse(mockView.showErrorCalled)
     }
 
     @Test
@@ -58,7 +58,7 @@ class RestaurantsMapPresenterTest {
         Thread.sleep(200)       // having to wait because operation is asynchronous
 
         // then
-        assertTrue(mockView._showErrorCalled)
-        assertTrue(mockView._shownRestaurants.isEmpty())
+        assertTrue(mockView.showErrorCalled)
+        assertTrue(mockView.shownRestaurants.isEmpty())
     }
 }
