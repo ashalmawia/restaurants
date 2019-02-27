@@ -23,6 +23,7 @@ class RestaurantsMapFragment : SupportMapFragment() {
 
         val presenter = RestaurantsMapPresenterImpl(view, serviceLocator.repository)
         this.presenter = presenter
+        view.presenter = presenter
 
         presenter.start()
     }

@@ -1,5 +1,6 @@
 package com.ashalmawia.foursquare.features.map
 
+import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import com.ashalmawia.foursquare.Navigator
@@ -13,11 +14,15 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
-private const val ZOOM_STREETS = 15.0f
+private const val ZOOM_STREETS = 10.0f
 
 interface RestaurantsMapView {
+
+    fun onShown()
+
+    fun updateLocation(location: Location)
     
-    fun showRestaurants(location: Location, restaurants: List<Restaurant>)
+    fun showRestaurants(restaurants: List<Restaurant>)
 
     fun showError(message: Text)
 }
@@ -28,11 +33,34 @@ class RestaurantsMapViewImpl(
     private val navigator: Navigator
 ) : RestaurantsMapView {
 
+    init {
+        setUpMap()
+    }
+
     private val context = actionBar.themedContext
 
-    override fun showRestaurants(location: Location, restaurants: List<Restaurant>) {
+    lateinit var presenter: RestaurantsMapPresenter
+
+    /**
+     * We check this permission on app's startup, 'cause this app doesn't make sense without that permission
+     */
+    @SuppressLint("MissingPermission")
+    private fun setUpMap() {
+        map.isMyLocationEnabled = true
+        map.setOnCameraIdleListener {
+            presenter.onNewLocation(map.cameraPosition.target.toLocation())
+        }
+    }
+
+    override fun onShown() {
         updateTitle()
-        updateLocation(location)
+    }
+
+    override fun updateLocation(location: Location) {
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(location.toLanLng(), ZOOM_STREETS))
+    }
+
+    override fun showRestaurants(restaurants: List<Restaurant>) {
         displayRestaurants(restaurants)
     }
 
@@ -40,11 +68,8 @@ class RestaurantsMapViewImpl(
         actionBar.setTitle(R.string.restaurants_title)
     }
 
-    private fun updateLocation(location: Location) {
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(location.toLanLng(), ZOOM_STREETS))
-    }
-
     private fun displayRestaurants(restaurants: List<Restaurant>) {
+        map.clear()
         restaurants.forEach {
             val marker = map.addMarker(
                 MarkerOptions()
@@ -69,3 +94,4 @@ class RestaurantsMapViewImpl(
 }
 
 private fun Location.toLanLng() = LatLng(latitude, longitude)
+private fun LatLng.toLocation() = Location(latitude, longitude)
