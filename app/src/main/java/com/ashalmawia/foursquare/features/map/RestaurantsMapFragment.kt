@@ -2,6 +2,7 @@ package com.ashalmawia.foursquare.features.map
 
 import android.os.Bundle
 import com.ashalmawia.foursquare.actionBar
+import com.ashalmawia.foursquare.serviceLocator
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 
@@ -17,7 +18,9 @@ class RestaurantsMapFragment : SupportMapFragment() {
     private fun initialize(map: GoogleMap) {
         val view = RestaurantsMapViewImpl(map, actionBar)
 
-        presenter = RestaurantsMapPresenterImpl(view)
+        val serviceLocator = activity!!.serviceLocator
+
+        presenter = RestaurantsMapPresenterImpl(view, serviceLocator.repository)
         presenter.start()
     }
 

@@ -1,7 +1,14 @@
 package com.ashalmawia.foursquare.features.map
 
+import android.util.Log
+import com.ashalmawia.foursquare.R
+import com.ashalmawia.foursquare.data.Repository
+import com.ashalmawia.foursquare.model.Location
 import com.ashalmawia.foursquare.model.Restaurant
-import com.google.android.gms.maps.model.LatLng
+import com.ashalmawia.foursquare.util.Text
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 
 interface RestaurantsMapPresenter {
 
@@ -10,23 +17,38 @@ interface RestaurantsMapPresenter {
     fun stop()
 }
 
-class RestaurantsMapPresenterImpl(private val view: RestaurantsMapView) : RestaurantsMapPresenter {
+class RestaurantsMapPresenterImpl(
+    private val view: RestaurantsMapView,
+    private val repository: Repository
+) : RestaurantsMapPresenter {
+
+    private val subscriptions = CompositeDisposable()
 
     override fun start() {
-        view.showRestaurants(getCurrentLocation(), getRestaurants())
+        loadRestaurants(getCurrentLocation())
     }
 
     // stub
-    private fun getCurrentLocation() = LatLng(52.3680, 4.9036)
+    private fun getCurrentLocation() = Location(52.3680, 4.9036)
 
-    // stub
-    private fun getRestaurants() = listOf(
-        Restaurant("Starbucks", LatLng(52.36607678472145, 4.897430803910262)),
-        Restaurant("Manneken Pis", LatLng(52.37570751971382, 4.896236799445381)),
-        Restaurant("Bocca", LatLng(52.36443129817435, 4.886863899263005)),
-        Restaurant("Oriental City", LatLng(52.371911733724474, 4.895993555789719))
-    )
+    private fun loadRestaurants(location: Location) {
+        val subscription = repository.getRestaurantsForLocation(location)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::onRestaurantsLoaded, this::onError)
+        subscriptions.add(subscription)
+    }
+
+    private fun onRestaurantsLoaded(restaurants: List<Restaurant>) {
+        view.showRestaurants(getCurrentLocation(), restaurants)
+    }
+
+    private fun onError(ignored: Throwable) {
+        Log.d(this::class.java.simpleName, "failed to get restaurants", ignored)
+        view.showError(Text.StringResource(R.string.error__restaurants_not_loaded))
+    }
 
     override fun stop() {
+        subscriptions.clear()
     }
 }

@@ -2,4 +2,6 @@
     <string name="app_name">FourSquare</string>
 
     <string name="restaurants_title">Restaurants</string>
+
+    <string name="error__restaurants_not_loaded">Failed to load restaurants. Please check your internet connection.</string>
 </resources>
