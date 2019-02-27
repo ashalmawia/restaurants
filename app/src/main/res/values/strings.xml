@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">FourSquare</string>
+
+    <string name="restaurants_title">Restaurants</string>
 </resources>
