@@ -10,8 +10,14 @@ class RestaurantsMapViewMock : RestaurantsMapView {
     var shownRestaurants = mutableListOf<Restaurant>()
     var showErrorCalled = false
 
-    override fun showRestaurants(location: Location, restaurants: List<Restaurant>) {
+    override fun onShown() {
+    }
+
+    override fun updateLocation(location: Location) {
         shownLocation = location
+    }
+
+    override fun showRestaurants(restaurants: List<Restaurant>) {
         shownRestaurants.addAll(restaurants)
     }
 

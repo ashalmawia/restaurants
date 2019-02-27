@@ -2,6 +2,7 @@ package com.ashalmawia.foursquare.features.map
 
 import com.ashalmawia.foursquare.data.ErrorRepository
 import com.ashalmawia.foursquare.data.MockRepository
+import com.ashalmawia.foursquare.features.location.MockLocationProvider
 import com.ashalmawia.foursquare.model.restaurant
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins
@@ -14,6 +15,8 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class RestaurantsMapPresenterTest {
+
+    private val locationProvider = MockLocationProvider()
 
     @Before
     fun before() {
@@ -34,7 +37,7 @@ class RestaurantsMapPresenterTest {
         val repository = MockRepository(list)
         val mockView = RestaurantsMapViewMock()
 
-        val presenter = RestaurantsMapPresenterImpl(mockView, repository)
+        val presenter = RestaurantsMapPresenterImpl(mockView, repository, locationProvider)
 
         // when
         presenter.start()
@@ -51,7 +54,7 @@ class RestaurantsMapPresenterTest {
         val error = Exception("mock exception")
         val repository = ErrorRepository(error)
         val mockView = RestaurantsMapViewMock()
-        val presenter = RestaurantsMapPresenterImpl(mockView, repository)
+        val presenter = RestaurantsMapPresenterImpl(mockView, repository, locationProvider)
 
         // when
         presenter.start()
