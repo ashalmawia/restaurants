@@ -32,29 +32,38 @@ class RestaurantDetailsViewImpl(
         appBar.title = restaurant.name
 
         root.apply {
-            labelDescription.apply {
-                visible = !details.description.isNullOrBlank()
-                text = details.description
+            val hasDescription = !details.description.isNullOrBlank()
+            if (hasDescription) {
+                labelDescription.text = details.description
+            } else {
+                labelDescription.visible = false
+                labelDescriptionTitle.visible = false
             }
 
             labelAddress.text = details.address
 
-            labelRating.apply {
-                val hasRating = details.rating != null
-                if (hasRating) {
-                    text = context.getString(R.string.details__rating_placeholder, details.rating)
-                }
-                visible = hasRating
+            val hasRating = details.rating != null
+            if (hasRating) {
+                labelRating.text = context.getString(R.string.details__rating_placeholder, details.rating)
+            } else {
+                labelRating.visible = false
+                labelRatingTitle.visible = false
             }
 
-            labelHours.apply {
-                visible = !details.hours.isNullOrBlank()
-                text = details.hours
+            val hasHours = !details.hours.isNullOrBlank()
+            if (hasHours) {
+                labelHours.text = details.hours
+            } else {
+                labelHours.visible = false
+                labelHoursTitle.visible = false
             }
 
-            labelPriceCategory.apply {
-                visible = details.priceCategory != null
-                text = details.priceCategory?.asReadablePriceCategory()
+            val hasPriceCategory = details.priceCategory != null
+            if (hasPriceCategory) {
+                labelPriceCategory.text = details.priceCategory?.asReadablePriceCategory()
+            } else {
+                labelPriceCategory.visible = false
+                labelPriceCategoryTitle.visible = false
             }
 
             details.photo?.let { imageLoader.load(photo, details.photo, R.drawable.placeholder) }

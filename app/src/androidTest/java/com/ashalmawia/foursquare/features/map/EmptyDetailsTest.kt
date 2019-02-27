@@ -54,7 +54,9 @@ class EmptyDetailsTest : BaseUiTest() {
         assertThat(photo, notNullValue())
 
         val description = device.findObject(By.res(PACKAGE, "labelDescription"))
+        val descriptionTitle = device.findObject(By.res(PACKAGE, "labelDescriptionTitle"))
         assertThat(description, nullValue())
+        assertThat(descriptionTitle, nullValue())
 
         // address is always shown
         val address = device.findObject(By.res(PACKAGE, "labelAddress"))
@@ -64,13 +66,19 @@ class EmptyDetailsTest : BaseUiTest() {
         }
 
         val hours = device.findObject(By.res(PACKAGE, "labelHours"))
+        val hoursTitle = device.findObject(By.res(PACKAGE, "labelHoursTitle"))
         assertThat(hours, nullValue())
+        assertThat(hoursTitle, nullValue())
 
         val rating = device.findObject(By.res(PACKAGE, "labelRating"))
+        val ratingTitle = device.findObject(By.res(PACKAGE, "labelRatingTitle"))
         assertThat(rating, nullValue())
+        assertThat(ratingTitle, nullValue())
 
         val labelPriceCategory = device.findObject(By.res(PACKAGE, "labelPriceCategory"))
+        val labelPriceCategoryTitle = device.findObject(By.res(PACKAGE, "labelPriceCategoryTitle"))
         assertThat(labelPriceCategory, nullValue())
+        assertThat(labelPriceCategoryTitle, nullValue())
     }
 
 }
