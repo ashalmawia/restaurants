@@ -14,7 +14,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
-private const val ZOOM_STREETS = 10.0f
+private const val ZOOM_STREETS = 15.0f
 
 interface RestaurantsMapView {
 
