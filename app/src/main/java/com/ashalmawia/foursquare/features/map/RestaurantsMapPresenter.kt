@@ -2,6 +2,7 @@ package com.ashalmawia.foursquare.features.map
 
 import com.ashalmawia.foursquare.R
 import com.ashalmawia.foursquare.data.Repository
+import com.ashalmawia.foursquare.features.location.LocationProvider
 import com.ashalmawia.foursquare.model.Location
 import com.ashalmawia.foursquare.model.Restaurant
 import com.ashalmawia.foursquare.util.Text
@@ -20,7 +21,8 @@ interface RestaurantsMapPresenter {
 
 class RestaurantsMapPresenterImpl(
     private val view: RestaurantsMapView,
-    private val repository: Repository
+    private val repository: Repository,
+    private val locationProvider: LocationProvider
 ) : RestaurantsMapPresenter {
 
     private val subscriptions = CompositeDisposable()
@@ -29,14 +31,25 @@ class RestaurantsMapPresenterImpl(
 
     override fun start() {
         view.onShown()
+        getCurrentLocation()
+    }
 
-        val location = getCurrentLocation()
+    private fun getCurrentLocation() {
+        val subscription = locationProvider.currentLocation
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::onCurrentLocation, this::onFailedToLoadLocation)
+        subscriptions.add(subscription)
+    }
+
+    private fun onCurrentLocation(location: Location) {
         view.updateLocation(location)
         loadRestaurants(location)
     }
 
-    // stub
-    private fun getCurrentLocation() = Location(52.3680, 4.9036)
+    private fun onFailedToLoadLocation(throwable: Throwable) {
+        view.showError(Text.StringResource(R.string.error__current_location_not_loaded))
+    }
 
     private fun loadRestaurants(location: Location) {
         if (lastLocation == location) {

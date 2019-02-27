@@ -14,6 +14,7 @@
 
     <string name="error__restaurants_not_loaded">Failed to load restaurants. Please check your internet connection.</string>
     <string name="error__restaurant_details_empty">Failed to load restaurant details. Please try again.</string>
+    <string name="error__current_location_not_loaded">Failed to get current location</string>
 
     <string name="permission__location__rationale_title">Location access required</string>
     <string name="permission__location__rationale_message">To work properly, this app requires access you your device\'s location.

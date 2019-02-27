@@ -9,7 +9,7 @@ import com.ashalmawia.foursquare.dependency.ServiceLocatorImpl
 open class FourSquareApplication : Application() {
 
     // open for testing
-    open val serviceLocator: ServiceLocator = ServiceLocatorImpl
+    open val serviceLocator: ServiceLocator by lazy { ServiceLocatorImpl(this.applicationContext) }
 }
 
 val Context.serviceLocator: ServiceLocator
