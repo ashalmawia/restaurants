@@ -1,6 +1,5 @@
 package com.ashalmawia.foursquare.features.map
 
-import android.util.Log
 import com.ashalmawia.foursquare.R
 import com.ashalmawia.foursquare.data.Repository
 import com.ashalmawia.foursquare.model.Location
@@ -44,7 +43,6 @@ class RestaurantsMapPresenterImpl(
     }
 
     private fun onError(ignored: Throwable) {
-        Log.d(this::class.java.simpleName, "failed to get restaurants", ignored)
         view.showError(Text.StringResource(R.string.error__restaurants_not_loaded))
     }
 
