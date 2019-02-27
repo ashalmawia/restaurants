@@ -5,9 +5,11 @@ import android.content.Context
 import com.ashalmawia.foursquare.dependency.ServiceLocator
 import com.ashalmawia.foursquare.dependency.ServiceLocatorImpl
 
-class FourSquareApplication : Application() {
+// open for testing
+open class FourSquareApplication : Application() {
 
-    val serviceLocator: ServiceLocator = ServiceLocatorImpl
+    // open for testing
+    open val serviceLocator: ServiceLocator = ServiceLocatorImpl
 }
 
 val Context.serviceLocator: ServiceLocator
