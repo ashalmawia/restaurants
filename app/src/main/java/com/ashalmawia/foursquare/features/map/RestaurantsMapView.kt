@@ -18,6 +18,8 @@ private const val ZOOM_STREETS = 15.0f
 
 interface RestaurantsMapView {
 
+    val currentLocation: Location
+
     fun onShown()
 
     fun updateLocation(location: Location)
@@ -48,9 +50,12 @@ class RestaurantsMapViewImpl(
     private fun setUpMap() {
         map.isMyLocationEnabled = true
         map.setOnCameraIdleListener {
-            presenter.onNewLocation(map.cameraPosition.target.toLocation())
+            presenter.onNewLocation(currentLocation)
         }
     }
+
+    override val currentLocation: Location
+        get() = map.cameraPosition.target.toLocation()
 
     override fun onShown() {
         updateTitle()

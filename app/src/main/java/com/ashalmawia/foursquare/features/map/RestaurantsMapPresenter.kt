@@ -12,7 +12,9 @@ import io.reactivex.schedulers.Schedulers
 
 interface RestaurantsMapPresenter {
 
-    fun start()
+    val currentLocation: Location
+
+    fun start(location: Location?)
 
     fun stop()
 
@@ -29,9 +31,16 @@ class RestaurantsMapPresenterImpl(
 
     private var lastLocation: Location? = null
 
-    override fun start() {
+    override val currentLocation: Location
+        get() = view.currentLocation
+
+    override fun start(location: Location?) {
         view.onShown()
-        getCurrentLocation()
+        if (location == null) {
+            getCurrentLocation()
+        } else {
+            onCurrentLocation(location)
+        }
     }
 
     private fun getCurrentLocation() {
@@ -78,6 +87,7 @@ class RestaurantsMapPresenterImpl(
     }
 
     override fun onNewLocation(location: Location) {
+        subscriptions.clear()
         loadRestaurants(location)
     }
 }
